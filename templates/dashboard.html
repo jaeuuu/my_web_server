@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>건축물 경보단말2U - 상태 대시보드</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .dashboard-container {
+            max-width: 960px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .dashboard-item {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .dashboard-item h3 {
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        .status-value {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .unit {
+            margin-left: 5px;
+            color: #6c757d;
+        }
+        /* 추가적인 스타일링 (예: 게이지 스타일) 은 필요에 따라 추가 */
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>건축물 경보단말2U 상태 대시보드</h1>
+
+        <div class="dashboard-item">
+            <h3>온도</h3>
+            <div>
+                <span class="status-value" id="temperature">-</span>
+                <span class="unit">°C</span>
+            </div>
+        </div>
+
+        <div class="dashboard-item">
+            <h3>메모리 사용량</h3>
+            <div>
+                <span class="status-value" id="memory-usage">-</span>
+                <span class="unit">%</span>
+            </div>
+        </div>
+
+        <div class="dashboard-item">
+            <h3>CPU 사용량</h3>
+            <div>
+                <span class="status-value" id="cpu-usage">-</span>
+                <span class="unit">%</span>
+            </div>
+        </div>
+
+        </div>
+
+    <script>
+        // 이 JavaScript 코드는 실제 장비로부터 데이터를 받아와서 화면에 표시하는 역할을 합니다.
+        // 실제 구현은 장비의 API 또는 데이터 제공 방식에 따라 달라집니다.
+
+        // 예시: 1초마다 임의의 데이터를 업데이트 (실제로는 API 호출 등을 통해 데이터를 받아와야 함)
+        function updateDashboard() {
+            const temperatureElement = document.getElementById('temperature');
+            const memoryUsageElement = document.getElementById('memory-usage');
+            const cpuUsageElement = document.getElementById('cpu-usage');
+
+            // 실제 장비로부터 데이터를 가져오는 로직 (가정)
+            fetch('/api/status') // 예시 API 엔드포인트
+                .then(response => response.json())
+                .then(data => {
+                    temperatureElement.textContent = data.temperature || '-';
+                    memoryUsageElement.textContent = data.memoryUsage || '-';
+                    cpuUsageElement.textContent = data.cpuUsage || '-';
+                })
+                .catch(error => {
+                    console.error('데이터를 가져오는 데 실패했습니다:', error);
+                    temperatureElement.textContent = 'Error';
+                    memoryUsageElement.textContent = 'Error';
+                    cpuUsageElement.textContent = 'Error';
+                });
+        }
+
+        // 최초 로딩 시 및 주기적으로 업데이트 (예: 5초마다)
+        updateDashboard();
+        setInterval(updateDashboard, 5000); // 5000ms = 5초
+    </script>
+</body>
+</html>
